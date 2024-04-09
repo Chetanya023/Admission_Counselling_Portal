@@ -31,3 +31,5 @@ Click on the "Calculate Probability" button to see the admission probabilities.
 
 Optionally, download the admission details for reference.
 
+# Link:
+https://chetanya023.github.io/Admission_Counselling_Portal/
