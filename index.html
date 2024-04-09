@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Admission Probability Calculator</title>
+    <style>
+        body 
+        {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            max-width: 100vw;
+        }
+        header {
+            background-color: #ffc107;
+            text-align: center;
+            width: 100vw;
+            /*position: sticky; */
+            top: 0;
+            z-index: 1;
+            transition: padding 0.3s; /* Add transition for smooth movement */
+        }
+
+        .container {
+            text-align: center;
+            width: 100vw; /* Take full width */
+            
+        }
+
+        .container h4{
+            padding-left: 5rem;
+            padding-right: 5rem;
+        }
+
+        .container img{
+            max-width: 100vw;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #result {
+            text-align: center; /* Center the text */
+            margin-top: 20px;
+        }
+
+        .bucket-details {
+            display: none;
+        }
+
+        .bucket1-details,
+        .bucket2-details {
+            display: none;
+        }
+        
+        .image-container {
+            max-width: 100%;
+            overflow: hidden;
+            position: relative;
+            height: 500px; /* Adjust the height as needed */
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .image-container img.active {
+            opacity: 1;
+        }
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        select {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        /* Styling for the button */
+        button {
+            padding: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+            <div style="text-align: center;">
+                <h1 style="color: #c4400b;">JAYPEE UNIVERSITY OF INFORMATION TECHNOLOGY</h1>
+                <h2 style="color: #c4400b;">WELCOME TO THE ADMISSION COUNSELLING PORTAL</h2>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <img src="Image_1.jpg" >
+        <h4 style="color: #270bc4;">WELCOME TO THE VIBRANT AND DYNAMIC JAYPEE UNIVERSITY OF INFORMATION TECHNOLOGY ADMISSION COUNSELLING PORTAL, YOUR GATEWAY TO SHAPING A BRILLIANT ACADEMIC FUTURE. AS YOU EMBARK ON THIS JOURNEY, OUR DEDICATED TEAM IS HERE TO GUIDE YOU THROUGH THE EXCITING POSSIBILITIES THAT LIE AHEAD. AT JAYPEE, WE BELIEVE IN FOSTERING AN ENVIRONMENT WHERE INNOVATION MEETS EXCELLENCE, AND YOUR ASPIRATIONS FIND THEIR WINGS. OUR ADMISSION COUNSELLING PORTAL IS DESIGNED TO NOT JUST ASSESS YOUR ACADEMIC PROWESS BUT TO UNDERSTAND YOUR UNIQUE POTENTIAL AND DREAMS. JOIN US IN THIS ENRICHING EXPERIENCE AS WE TOGETHER PAVE THE WAY FOR A TRANSFORMATIVE EDUCATIONAL VOYAGE.</h4>
+        <h4 style="color: #270bc4;">AS YOU NAVIGATE THROUGH THE VIRTUAL CORRIDORS OF OUR ADMISSION COUNSELLING PORTAL, ENVISION THE ENDLESS OPPORTUNITIES THAT AWAIT YOU AT JAYPEE. THIS PORTAL IS MORE THAN JUST A GATEWAY; IT'S A KEY TO UNLOCKING A WORLD OF KNOWLEDGE, CAMARADERIE, AND PERSONAL GROWTH. OUR COMMITMENT TO FOSTERING A SUPPORTIVE COMMUNITY OF LEARNERS IS REFLECTED IN EVERY ASPECT OF THIS PORTAL. WHETHER YOU ARE EXPLORING VARIOUS ACADEMIC PATHS, SEEKING GUIDANCE ON PROGRAM SUITABILITY, OR SIMPLY CURIOUS ABOUT LIFE AT JAYPEE, CONSIDER THIS PORTAL YOUR COMPASS. EMBRACE THE SPIRIT OF CURIOSITY, AMBITION, AND COLLABORATION THAT DEFINES OUR UNIVERSITY. WE'RE THRILLED TO ACCOMPANY YOU ON THIS EXCITING CHAPTER OF YOUR EDUCATIONAL JOURNEY, WHERE EVERY CLICK BRINGS YOU CLOSER TO A FUTURE FILLED WITH PROMISE AND ACCOMPLISHMENT.</h4>
+        <h4>NON-MEDICAL FIELD CONTAINS THE FOLLOWING BRANCHES:</h4>
+        <p>1. Computer Science and Engineering (CSE)</p>
+        <p>2. Information Technology (IT)</p>
+        <p>3. Electronics and Communication Engineering (ECE)</p>
+        <p>4. Civil Engineering (CE)</p>
+        <h4>MEDICAL FILED CONTAINS THE FOLLOWING BRANCHES:</h4>
+        <p>1. Biotechnology (BT)</p>
+        <p>2. Bioinformatics (BI)</p>
+        <form id="admissionForm">
+            <h4><label for="choice">CHOOSE YOUR DESIRED FIELD:</label></h4>
+            <select id="choice" name="choice" onchange="toggleDetails()">
+                <option value="0">Select Field</option>
+                <option value="1">Non-Medical</option>
+                <option value="2">Medical</option>
+            </select>
+
+            <div class="bucket-details bucket1-details" id="bucket1Details">
+                <br>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <br>
+                <label for="number">Contact Number:</label>
+                <input type="text" id="number" name="number" pattern="[0-9]{10}" required>
+                <br>
+                <label for="mail">E-Mail Address:</label>
+                <input type="email" id="mail" name="mail" required>
+                <br>
+                <label for="phy_marks">Physics Marks:</label>
+                <input type="text" id="phy_marks" name="phy_marks" pattern="[0-9]{10}" required>
+                <br>
+                <label for="maths_marks">Maths Marks:</label>
+                <input type="text" id="maths_marks" name="maths_marks" pattern="[0-9]{10}" required>
+                <br>
+                <label for="chem_marks">Chemistry Marks:</label>
+                <input type="text" id="chem_marks" name="chem_marks" pattern="[0-9]{10}" required>
+                <br>
+                <label for="eng_marks">English Marks:</label>
+                <input type="text" id="eng_marks" name="eng_marks" pattern="[0-9]{10}" required>
+                <br>
+                <label for="comp_marks">Computer Marks:</label>
+                <input type="text" id="comp_marks" name="comp_marks" pattern="[0-9]{10}" required>
+                <br>
+                <label for="hindi_marks">Hindi Marks:</label>
+                <input type="text" id="hindi_marks" name="hindi_marks" pattern="[0-9]{10}" required>
+                <br>
+                <label for="phyed_marks">Physical Education Marks:</label>
+                <input type="text" id="phyed_marks" name="phyed_marks" pattern="[0-9]{10}" required>
+            </div>
+            <div class="bucket-details bucket2-details" id="bucket2Details">
+                <label for="name2">Name:</label>
+                <input type="text" id="name2" name="name2" required>
+                <br>
+                <label for="number2">Contact Number:</label>
+                <input type="text" id="number2" name="number2" pattern="[0-9]{10}" required>
+                <br>
+                <label for="mail2">E-Mail Address:</label>
+                <input type="email" id="mail2" name="mail2" required>
+                <br>
+                <label for="phy_marks2">Physics Marks:</label>
+                <input type="text" id="phy_marks2" name="phy_marks2" pattern="[0-9]{10}" required>
+                <br>
+                <label for="bio_marks2">Biology Marks:</label>
+                <input type="text" id="bio_marks2" name="bio_marks2" pattern="[0-9]{10}" required>
+                <br>
+                <label for="chem_marks2">Chemistry Marks:</label>
+                <input type="text" id="chem_marks2" name="chem_marks2" pattern="[0-9]{10}" required>
+                <br>
+                <label for="eng_marks2">English Marks:</label>
+                <input type="text" id="eng_marks2" name="eng_marks2" pattern="[0-9]{10}" required>
+                <br>
+                <label for="comp_marks2">Computer Marks:</label>
+                <input type="text" id="comp_marks2" name="comp_marks2" pattern="[0-9]{10}" required>
+                <br>
+                <label for="hindi_marks2">Hindi Marks:</label>
+                <input type="text" id="hindi_marks2" name="hindi_marks2" pattern="[0-9]{10}" required>
+                <br>
+                <label for="phyed_marks2">Physical Education Marks:</label>
+                <input type="text" id="phyed_marks2" name="phyed_marks2" pattern="[0-9]{10}" required>
+            </div>
+        </form>
+        <button onclick="calculateProbability()">Calculate Probability</button>
+
+        <div id="result" class="hidden">
+            <h2>Admission Result</h2>
+            <!-- Display the result here -->
+        </div>
+    </div>
+    <script>
+        
+        function toggleDetails() {
+            const choice = document.getElementById("choice").value;
+            const bucket1Details = document.getElementById("bucket1Details");
+            const bucket2Details = document.getElementById("bucket2Details");
+
+            // Hide all details
+            bucket1Details.style.display = "none";
+            bucket2Details.style.display = "none";
+
+            // Show details based on the selected bucket
+            if (choice === "1") {
+                bucket1Details.style.display = "block";
+            } else if (choice === "2") {
+                bucket2Details.style.display = "block";
+            }
+        }
+
+        function calculateProbability() {
+            // Get form data based on the selected bucket
+            const choice = document.getElementById("choice").value;
+            let resultText = "";
+            let dataToSave = "";
+            
+            const isEmpty = str => !str.trim();
+            if (choice === "1") {
+                // Perform calculations for Bucket 1
+                const number = document.getElementById("number").value;
+                //mail = document.getElementById("mail").value;
+                const phy_marks = parseFloat(document.getElementById("phy_marks").value);
+                const maths_marks = parseFloat(document.getElementById("maths_marks").value);
+                const chem_marks = parseFloat(document.getElementById("chem_marks").value);
+                const eng_marks = parseFloat(document.getElementById("eng_marks").value);
+                const comp_marks = parseFloat(document.getElementById("comp_marks").value);
+                const hindi_marks = parseFloat(document.getElementById("hindi_marks").value);
+                const phyed_marks = parseFloat(document.getElementById("phyed_marks").value);
+                
+                const name = document.getElementById("name").value;
+                
+                if (isEmpty(name)) {
+                    alert("Please enter your name.");
+                    return;
+                }
+                // Check if the name contains any digits
+                if (/\d/.test(name)) 
+                {
+                    alert("Please enter a valid name without digits.");
+                    return;
+                }
+
+                // Validate contact number length
+                if (number.length !== 10) 
+                {
+                    alert("Please enter a 10-digit contact number.");
+                    return;
+                }
+                const mail = document.getElementById("mail").value;
+
+                // Validate email
+                if (!mail.includes("@")) 
+                {
+                    alert("Please enter a valid Gmail address.");
+                    return;
+                }
+
+                if (isNaN(phy_marks) || phy_marks < 10 || phy_marks > 100) {
+                    alert("Please enter valid physics marks");
+                    return;
+                }
+                if (isNaN(maths_marks) || maths_marks < 10 || maths_marks > 100) {
+                    alert("Please enter valid maths marks");
+                    return;
+                }
+                if (isNaN(chem_marks) || chem_marks < 10 || chem_marks > 100) {
+                    alert("Please enter valid chemistry marks");
+                    return;
+                }
+                if (isNaN(eng_marks) || eng_marks < 10 || eng_marks > 100) {
+                    alert("Please enter valid english marks");
+                    return;
+                }
+                if (isNaN(comp_marks) || comp_marks < 10 || comp_marks > 100) {
+                    alert("Please enter valid computer marks");
+                    return;
+                }
+                if (isNaN(hindi_marks) ||  hindi_marks > 100) {
+                    alert("Please enter valid hindi marks");
+                    return;
+                }
+                if (isNaN(phyed_marks) ||  phyed_marks > 100) {
+                    alert("Please enter valid physical education marks");
+                    return;
+                }
+     
+                const max_marks_1 = Math.max(chem_marks, eng_marks);
+                const max_marks_2 = Math.max(max_marks_1, comp_marks);
+                const total_marks = phy_marks + maths_marks + max_marks_2;
+                const percentage_obtained = (total_marks * 100) / 300;
+
+                resultText = `
+                    <p><strong>Name:</strong> ${name}</p>
+                    <p><strong>Contact Number:</strong> ${number}</p>
+                    <p><strong>E-Mail:</strong> ${mail}</p>
+                    <p><strong>Percentage Obtained:</strong> ${percentage_obtained.toFixed(2)}%</p>
+                    <p><strong>Probability of Securing a Seat in CSE Department:</strong> ${Math.max(percentage_obtained - 20, 0).toFixed(2)}%</p>
+                    <p><strong>Probability of Securing a Seat in IT Department:</strong> ${Math.max(percentage_obtained - 15, 0).toFixed(2)}%</p>
+                    <p><strong>Probability of Securing a Seat in ECE Department:</strong> 100%</p>
+                    <p><strong>Probability of Securing a Seat in Civil Department:</strong> 100%</p>
+                `;
+            dataToSave = `
+            Name: ${name}
+            Contact Number: ${number}
+            E-Mail: ${mail}
+            Physics Marks: ${phy_marks}
+            Maths Marks: ${maths_marks}
+            Chemistry Marks: ${chem_marks}
+            English Marks: ${eng_marks}
+            Computer Marks: ${comp_marks}
+            Hindi Marks: ${hindi_marks}
+            Physical Education Marks: ${phyed_marks}
+        `;
+            } 
+            else if (choice === "2") {
+               
+                const number2 = document.getElementById("number2").value;
+                //mail2 = document.getElementById("mail2").value;
+                const phy_marks2 = parseFloat(document.getElementById("phy_marks2").value);
+                const bio_marks2 = parseFloat(document.getElementById("bio_marks2").value);
+                const chem_marks2 = parseFloat(document.getElementById("chem_marks2").value);
+                const eng_marks2 = parseFloat(document.getElementById("eng_marks2").value);
+                const comp_marks2 = parseFloat(document.getElementById("comp_marks2").value);
+                const hindi_marks2 = parseFloat(document.getElementById("hindi_marks2").value);
+                const phyed_marks2 = parseFloat(document.getElementById("phyed_marks2").value);
+                const name2 = document.getElementById("name2").value;
+                
+                if (isEmpty(name2)) {
+                    alert("Please enter your name.");
+                    return;
+                }
+                // Check if the name contains any digits
+                if (/\d/.test(name2)  ) 
+                {
+                    alert("Please enter a valid name without digits.");
+                    return;
+                }
+
+                // Validate contact number length
+                if (number2.length !== 10) 
+                {
+                    alert("Please enter a 10-digit contact number.");
+                    return;
+                }
+                const mail2 = document.getElementById("mail2").value;
+
+                // Validate email
+                if (!mail2.includes("@")) 
+                {
+                alert("Please enter a valid Gmail address.");
+                return;
+                }
+
+                if (isNaN(phy_marks2) || phy_marks2 < 10 || phy_marks2 > 100) {
+                    alert("Please enter valid physics marks");
+                    return;
+                }
+                if (isNaN(bio_marks2) || bio_marks2 < 10 || bio_marks2 > 100) {
+                    alert("Please enter valid biology marks");
+                    return;
+                }
+                if (isNaN(chem_marks2) || chem_marks2 < 10 || chem_marks2 > 100) {
+                    alert("Please enter valid chemistry marks");
+                    return;
+                }
+                if (isNaN(eng_marks2) || eng_marks2 < 10 || eng_marks2 > 100) {
+                    alert("Please enter valid english marks");
+                    return;
+                }
+                if (isNaN(comp_marks2) || comp_marks2 < 10 || comp_marks2 > 100) {
+                    alert("Please enter valid computer marks");
+                    return;
+                }
+                if (isNaN(hindi_marks2) || hindi_marks2 > 100) {
+                    alert("Please enter valid hindi marks");
+                    return;
+                }
+                if (isNaN(phyed_marks2) || phyed_marks2 > 100) {
+                    alert("Please enter valid physical education marks");
+                    return;
+                }
+
+                const max_marks_1_2 = Math.max(chem_marks2, eng_marks2);
+                const max_marks_2_2 = Math.max(max_marks_1_2, comp_marks2);
+                const total_marks_2 = phy_marks2 + bio_marks2 + max_marks_2_2;
+                const percentage_obtained_2 = (total_marks_2 * 100) / 300;
+
+                resultText = `
+                   <p><strong>Name:</strong> ${name2}</p>
+                   <p><strong>Contact Number:</strong> ${number2}</p>
+                   <p><strong>E-Mail:</strong> ${mail2}</p>
+                   <p><strong>Percentage Obtained:</strong> ${percentage_obtained_2.toFixed(2)}%</p>
+                   <p><strong>Probability of Securing a Seat in BT Department:</strong> ${Math.max(percentage_obtained_2 - 15, 0).toFixed(2)}%</p>
+                   <p><strong>Probability of Securing a Seat in BI Department:</strong> ${Math.max(percentage_obtained_2 - 10, 0).toFixed(2)}%</p>
+                `;
+            dataToSave = `
+            Name: ${name2}
+            Contact Number: ${number2}
+            E-Mail: ${mail2}
+            Physics Marks: ${phy_marks2}
+            Biology Marks: ${bio_marks2}
+            Chemistry Marks: ${chem_marks2}
+            English Marks: ${eng_marks2}
+            Computer Marks: ${comp_marks2}
+            Hindi Marks: ${hindi_marks2}
+            Physical Education Marks: ${phyed_marks2}
+        `;
+            }
+            const blob = new Blob([dataToSave], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'admission_details.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Display the result
+            const resultElement = document.getElementById("result");
+            resultElement.innerHTML = resultText;
+
+            // Show the result
+            resultElement.classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>
